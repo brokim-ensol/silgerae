@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.js"></script> -->
+    <!-- <script src="./static/excel-bootstrap-table-filter-bundle.js"></script> -->
+    <!-- <link rel="stylesheet" href="./static/bootstrap.min.css"> -->
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="./static/excel-bootstrap-table-filter-style.css"> -->
+    <title>부동산 실거래가</title>
+</head>
+<body>
+    
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <div class=page>
+        <h1> 양재2동 실거래가</h1>
+        {% for table in tables %}
+            <h2>{{titles[loop.index]}}</h2>
+            {{ table|safe }}
+        {% endfor %}
+    </div>
+    <!-- <script>
+        // Use the plugin once the DOM has been loaded.
+        $(function () {
+          // Apply the plugin 
+          $('#table').excelTableFilter();
+        });
+      </script> -->
+</body>
+
+
