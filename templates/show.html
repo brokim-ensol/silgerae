@@ -13,13 +13,79 @@
 <body>
     
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-    <div class=page>
+    <!-- <div class=page>
         <h1> 양재2동 실거래가</h1>
         {% for table in tables %}
             <h2>{{titles[loop.index]}}</h2>
             {{ table|safe }}
         {% endfor %}
-    </div>
+    </div> -->
+    <div class="row">
+        <div class="col-md-12">
+          <table id="table" class="table table-bordered table-intel">
+            <thead>
+              <tr class="table-info">
+                <th>Animal<div class="dropdown-filter-dropdown"><span class="glyphicon glyphicon-arrow-down dropdown-filter-icon"><i class="arrow-down"></i></span><div class="dropdown-filter-content" style="display: none;"><div class="dropdown-filter-sort"><span class="a-to-z" data-column="0">A to Z</span></div><div class="dropdown-filter-sort"><span class="z-to-a" data-column="0">Z to A</span></div><div class="dropdown-filter-search"><input type="text" class="dropdown-filter-menu-search form-control" data-column="0" placeholder="search"></div><div class="checkbox-container"><div class="dropdown-filter-item"><input type="checkbox" value="Select All" checked="checked" class="dropdown-filter-menu-item select-all" data-column="0"> Select All</div><div class="dropdown-filter-item"><input type="checkbox" value="Ant" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Ant</div><div class="dropdown-filter-item"><input type="checkbox" value="Barracude" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Barracude</div><div class="dropdown-filter-item"><input type="checkbox" value="Bear" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Bear</div><div class="dropdown-filter-item"><input type="checkbox" value="Crow" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Crow</div><div class="dropdown-filter-item"><input type="checkbox" value="Elephant" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Elephant</div><div class="dropdown-filter-item"><input type="checkbox" value="Frog" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Frog</div><div class="dropdown-filter-item"><input type="checkbox" value="Kookaburra" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Kookaburra</div><div class="dropdown-filter-item"><input type="checkbox" value="Owl" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Owl</div><div class="dropdown-filter-item"><input type="checkbox" value="Salamander" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Salamander</div><div class="dropdown-filter-item"><input type="checkbox" value="Shark" checked="checked" class="dropdown-filter-menu-item item" data-column="0"> Shark</div></div></div></div></th>
+                <th>Class<div class="dropdown-filter-dropdown"><span class="glyphicon glyphicon-arrow-down dropdown-filter-icon"><i class="arrow-down"></i></span><div class="dropdown-filter-content" style="display: none;"><div class="dropdown-filter-sort"><span class="a-to-z" data-column="1">A to Z</span></div><div class="dropdown-filter-sort"><span class="z-to-a" data-column="1">Z to A</span></div><div class="dropdown-filter-search"><input type="text" class="dropdown-filter-menu-search form-control" data-column="1" placeholder="search"></div><div class="checkbox-container"><div class="dropdown-filter-item"><input type="checkbox" value="Select All" checked="checked" class="dropdown-filter-menu-item select-all" data-column="1"> Select All</div><div class="dropdown-filter-item"><input type="checkbox" value="Amphibian" checked="checked" class="dropdown-filter-menu-item item" data-column="1"> Amphibian</div><div class="dropdown-filter-item"><input type="checkbox" value="Bird" checked="checked" class="dropdown-filter-menu-item item" data-column="1"> Bird</div><div class="dropdown-filter-item"><input type="checkbox" value="Fish" checked="checked" class="dropdown-filter-menu-item item" data-column="1"> Fish</div><div class="dropdown-filter-item"><input type="checkbox" value="Insect" checked="checked" class="dropdown-filter-menu-item item" data-column="1"> Insect</div><div class="dropdown-filter-item"><input type="checkbox" value="Mammal" checked="checked" class="dropdown-filter-menu-item item" data-column="1"> Mammal</div></div></div></div></th>
+                <th>Collective Noun<div class="dropdown-filter-dropdown"><span class="glyphicon glyphicon-arrow-down dropdown-filter-icon"><i class="arrow-down"></i></span><div class="dropdown-filter-content" style="display: none;"><div class="dropdown-filter-sort"><span class="a-to-z" data-column="2">A to Z</span></div><div class="dropdown-filter-sort"><span class="z-to-a" data-column="2">Z to A</span></div><div class="dropdown-filter-search"><input type="text" class="dropdown-filter-menu-search form-control" data-column="2" placeholder="search"></div><div class="checkbox-container"><div class="dropdown-filter-item"><input type="checkbox" value="Select All" checked="checked" class="dropdown-filter-menu-item select-all" data-column="2"> Select All</div><div class="dropdown-filter-item"><input type="checkbox" value="Army" checked="checked" class="dropdown-filter-menu-item item" data-column="2"> Army</div><div class="dropdown-filter-item"><input type="checkbox" value="Cackle" checked="checked" class="dropdown-filter-menu-item item" data-column="2"> Cackle</div><div class="dropdown-filter-item"><input type="checkbox" value="Congress" checked="checked" class="dropdown-filter-menu-item item" data-column="2"> Congress</div><div class="dropdown-filter-item"><input type="checkbox" value="Gam" checked="checked" class="dropdown-filter-menu-item item" data-column="2"> Gam</div><div class="dropdown-filter-item"><input type="checkbox" value="Grist" checked="checked" class="dropdown-filter-menu-item item" data-column="2"> Grist</div><div class="dropdown-filter-item"><input type="checkbox" value="Herd" checked="checked" class="dropdown-filter-menu-item item" data-column="2"> Herd</div><div class="dropdown-filter-item"><input type="checkbox" value="Murder" checked="checked" class="dropdown-filter-menu-item item" data-column="2"> Murder</div><div class="dropdown-filter-item"><input type="checkbox" value="Parliament" checked="checked" class="dropdown-filter-menu-item item" data-column="2"> Parliament</div><div class="dropdown-filter-item"><input type="checkbox" value="Sleuth" checked="checked" class="dropdown-filter-menu-item item" data-column="2"> Sleuth</div></div></div></div></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bear</td>
+                <td>Mammal</td>
+                <td>Sleuth</td>
+              </tr>
+              <tr>
+                <td>Ant</td>
+                <td>Insect</td>
+                <td>Army</td>
+              </tr>
+              <tr>
+                <td>Salamander</td>
+                <td>Amphibian</td>
+                <td>Congress</td>
+              </tr>
+              <tr>
+                <td>Owl</td>
+                <td>Bird</td>
+                <td>Parliament</td>
+              </tr>
+              <tr>
+                <td>Frog</td>
+                <td>Amphibian</td>
+                <td>Army</td>
+              </tr>
+              <tr>
+                <td>Shark</td>
+                <td>Fish</td>
+                <td>Gam</td>
+              </tr>
+              <tr>
+                <td>Kookaburra</td>
+                <td>Bird</td>
+                <td>Cackle</td>
+              </tr>
+              <tr>
+                <td>Crow</td>
+                <td>Bird</td>
+                <td>Murder</td>
+              </tr>
+              <tr>
+                <td>Elephant</td>
+                <td>Mammal</td>
+                <td>Herd</td>
+              </tr>
+              <tr>
+                <td>Barracude</td>
+                <td>Fish</td>
+                <td>Grist</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>    
+
     <script>
         // Use the plugin once the DOM has been loaded.
         $(function () {
