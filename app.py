@@ -44,7 +44,10 @@ def show():
             "show.html",
             tables=[
                 df1.to_html(
-                    classes="table table-bordered table-intel", table_id="table"
+                    classes="table table-bordered table-intel",
+                    table_id="table",
+                    border=0,
+                    index=False,
                 )
             ],
             titles=["na", "1. 1구역 평당 대지권 가격순"],
@@ -57,7 +60,10 @@ def show():
             "show.html",
             tables=[
                 df1.to_html(
-                    classes="table table-bordered table-intel", table_id="table"
+                    classes="table table-bordered table-intel",
+                    table_id="table",
+                    border=0,
+                    index=False,
                 )
             ],
             titles=["na", "1. 1구역 평당 대지권 가격순"],
