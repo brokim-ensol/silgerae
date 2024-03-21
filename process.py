@@ -11,6 +11,15 @@ def pre_process(latest_file: Path = None):
         latest_file = max(current_folder.glob("*.csv"), key=lambda f: f.stat().st_ctime)
 
     df = pd.read_csv(latest_file, encoding="cp949", sep=",", skiprows=15, header=0)
+    df.rename(
+        {
+            "대지권면적(㎡)": "대지면적",
+            "거래금액(만원)": "거래금액",
+            "전용면적(㎡)": "전용면적",
+        },
+        axis="columns",
+        inplace=True,
+    )
 
     # print(df.columns)
     # %%
@@ -61,20 +70,8 @@ def pre_process(latest_file: Path = None):
     # 1구역에 해당하는 데이터만 가져온다.
     df1 = df[df["1구역"]]
 
-    # 조건 1 : 대지면적평당가격이 가장 높은 순으로 정렬한다.
-    df_high = df1.sort_values(by="대지면적평당가격", ascending=False)
-
-    # 조건 2 : 대지면적 컬럼의 값이 25보다 큰 데이터만 가져온다.
-    df_large = df1[df1["대지면적"] > 25]
-
-    # 조건 3: 1구역에 해당하는 데이터를 최신순으로 정렬한다.
-    df_latest = df1.sort_values(by="계약날짜", ascending=False)
-
-    # 조건 4: 거래금액이 70000보다 큰 데이터만 가져온다.
-    df_expensive = df[df["거래금액"] > 70000]
-
     # %%
-    return df_high, df_large, df_latest, df_expensive
+    return df1
 
 
 if __name__ == "__main__":

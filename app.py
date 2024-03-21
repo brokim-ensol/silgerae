@@ -35,44 +35,32 @@ def show():
     except:
         latest_file = None
 
+    styles = [dict(selector="tr", props=[("class", "table-info")])]
+
     if latest_file:
-        df_high, df_large, df_latest, df_expensive = pre_process(latest_file)
+        df1 = pre_process(latest_file)
 
         return render_template(
             "show.html",
             tables=[
-                df_high.head(10).to_html(classes="type1"),
-                df_large.head(10).to_html(classes="type2"),
-                df_latest.head(10).to_html(classes="type1"),
-                df_expensive.head(10).to_html(classes="type2"),
+                df1.to_html(
+                    classes="table table-bordered table-intel", table_id="table"
+                )
             ],
-            titles=[
-                "na",
-                "1. 1구역 평당 대지권 가격순",
-                "2. 1구역 대지면적 25 m2 이상",
-                "3. 1구역 최신 거래순",
-                "4. 양재2동 7억 이상",
-            ],
+            titles=["na", "1. 1구역 평당 대지권 가격순"],
         )
 
     else:
-        df_high, df_large, df_latest, df_expensive = pre_process()
+        df1 = pre_process()
 
         return render_template(
             "show.html",
             tables=[
-                df_high.head(10).to_html(classes="type1"),
-                df_large.head(10).to_html(classes="type2"),
-                df_latest.head(10).to_html(classes="type1"),
-                df_expensive.head(10).to_html(classes="type2"),
+                df1.to_html(
+                    classes="table table-bordered table-intel", table_id="table"
+                )
             ],
-            titles=[
-                "na",
-                "1. 1구역 평당 대지권 가격순",
-                "2. 1구역 대지면적 25 m2 이상",
-                "3. 1구역 최신 거래순",
-                "4. 양재2동 7억 이상",
-            ],
+            titles=["na", "1. 1구역 평당 대지권 가격순"],
         )
 
 
