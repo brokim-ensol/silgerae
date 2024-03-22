@@ -71,12 +71,10 @@ def pre_process(latest_file: Path = None):
     df1 = df[df["1구역"]]
 
     # %%
-    return df1
+    return df1.head(20), df.head(20)
 
 
 if __name__ == "__main__":
-    df_high, df_large, df_latest, df_expensive = pre_process()
-    print(df_high.head(10))
-    print(df_large.head(10))
-    print(df_latest.head(10))
-    print(df_expensive.head(10))
+    df1, df = pre_process()
+    print(df1)
+    print(df)

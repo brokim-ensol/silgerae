@@ -12,7 +12,7 @@
 </head>
 <body>
     
-    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
     <div class=page>
         <h1> 양재2동 실거래가</h1>
         {% for table in tables %}
@@ -24,7 +24,8 @@
         // Use the plugin once the DOM has been loaded.
         $(function () {
           // Apply the plugin 
-          $('#table').excelTableFilter();
+            $('#table1').excelTableFilter();
+            $('#table2').excelTableFilter();
         });
       </script>
 </body>

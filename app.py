@@ -38,35 +38,47 @@ def show():
     styles = [dict(selector="tr", props=[("class", "table-info")])]
 
     if latest_file:
-        df1 = pre_process(latest_file)
+        df1, df = pre_process(latest_file)
 
         return render_template(
             "show.html",
             tables=[
                 df1.to_html(
                     classes="table table-bordered table-intel",
-                    table_id="table",
+                    table_id="table1",
                     border=0,
                     index=False,
-                )
+                ),
+                df.to_html(
+                    classes="table table-bordered table-intel",
+                    table_id="table2",
+                    border=0,
+                    index=False,
+                ),
             ],
-            titles=["na", "1. 1구역 평당 대지권 가격순"],
+            titles=["na", "1구역", "양재2동 전체"],
         )
 
     else:
-        df1 = pre_process()
+        df1, df = pre_process()
 
         return render_template(
             "show.html",
             tables=[
                 df1.to_html(
                     classes="table table-bordered table-intel",
-                    table_id="table",
+                    table_id="table1",
                     border=0,
                     index=False,
-                )
+                ),
+                df.to_html(
+                    classes="table table-bordered table-intel",
+                    table_id="table2",
+                    border=0,
+                    index=False,
+                ),
             ],
-            titles=["na", "1. 1구역 평당 대지권 가격순"],
+            titles=["na", "1구역", "양재2동 전체"],
         )
 
 
