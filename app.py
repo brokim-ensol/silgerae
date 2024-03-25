@@ -4,6 +4,8 @@ import os
 from crawl import crawl
 from process import pre_process
 from pathlib import Path
+from db import insert_data, read_data, create_table
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -13,14 +15,22 @@ app.secret_key = "brokim"
 
 @app.route("/")
 def hello_world():  # put application's code here
-    return "Hello World!"
+    try:
+        create_table()
+        return "DB created!"
+    except:
+        return "Hello World!"
 
 
 @app.route("/crawl")
 def do_crawl():
     latest_file = crawl()
     session["latest_file"] = str(latest_file)
+
     if latest_file:
+        df1, df = pre_process(Path(latest_file))
+        insert_data(df1, table_name="section_one")
+        insert_data(df, table_name="yangjae")
         return f"success {latest_file.name}"
     else:
         return "Nothing"
@@ -28,58 +38,30 @@ def do_crawl():
 
 @app.route("/show")
 def show():
-    latest_file_str = session.get("latest_file", None)
-    # convert string to Path object
-    try:
-        latest_file = Path(latest_file_str)
-    except:
-        latest_file = None
+    df1 = read_data(table_name="section_one")
+    df = read_data(table_name="yangjae")
+    # df1의 updated_at 컬럼을 기준으로 최근 1주일 데이터만 가져온다.
+    df1 = df1[df1["updated_at"] > pd.to_datetime("now") - pd.DateOffset(weeks=1)]
+    df = df[df["updated_at"] > pd.to_datetime("now") - pd.DateOffset(weeks=1)]
 
-    styles = [dict(selector="tr", props=[("class", "table-info")])]
-
-    if latest_file:
-        df1, df = pre_process(latest_file)
-
-        return render_template(
-            "show.html",
-            tables=[
-                df1.to_html(
-                    classes="table table-bordered table-intel",
-                    table_id="table1",
-                    border=0,
-                    index=False,
-                ),
-                df.to_html(
-                    classes="table table-bordered table-intel",
-                    table_id="table2",
-                    border=0,
-                    index=False,
-                ),
-            ],
-            titles=["na", "1구역", "양재2동 전체"],
-        )
-
-    else:
-        df1, df = pre_process()
-
-        return render_template(
-            "show.html",
-            tables=[
-                df1.to_html(
-                    classes="table table-bordered table-intel",
-                    table_id="table1",
-                    border=0,
-                    index=False,
-                ),
-                df.to_html(
-                    classes="table table-bordered table-intel",
-                    table_id="table2",
-                    border=0,
-                    index=False,
-                ),
-            ],
-            titles=["na", "1구역", "양재2동 전체"],
-        )
+    return render_template(
+        "show.html",
+        tables=[
+            df1.to_html(
+                classes="table table-bordered table-intel",
+                table_id="table1",
+                border=0,
+                index=False,
+            ),
+            df.to_html(
+                classes="table table-bordered table-intel",
+                table_id="table2",
+                border=0,
+                index=False,
+            ),
+        ],
+        titles=["na", "1구역", "양재2동 전체"],
+    )
 
 
 if __name__ == "__main__":
