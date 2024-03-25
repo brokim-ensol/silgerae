@@ -4,6 +4,7 @@ import pandas as pd
 from process import pre_process
 import random
 import string
+from pathlib import Path
 
 
 # 데이터베이스 생성
@@ -117,10 +118,11 @@ def table_column_names(
 
     cursor = con.cursor()
 
-    query = f"SELECT column_name FROM information_schema.columns WHERE table_name = '{table_name}'"
+    query = f"select * from pragma_table_info('{table_name}')"
     rows = cursor.execute(query)
-    dirty_names = [i[0] for i in rows]
-    clean_names = "`" + "`, `".join(map(str, dirty_names)) + "`"
+    columns = [i[1] for i in rows]
+    # clean_names = "`" + "`, `".join(map(str, columns)) + "`"
+    clean_names = ", ".join(columns)
     return clean_names
 
 
@@ -129,7 +131,7 @@ def insert_conflict_ignore(
     con: sqlite3.Connection = None,
     table_name: str = "section_one",
     index: bool = False,
-):
+) -> str | None:
     """
     Saves dataframe to the MySQL database with 'INSERT IGNORE' query.
 
@@ -148,21 +150,27 @@ def insert_conflict_ignore(
     if con is None:
         con = sqlite3.connect("db/silgerae.db")
 
+    cursor = con.cursor()
+
     temp_table = "".join(random.choice(string.ascii_letters) for i in range(10))
     try:
-        df.to_sql(table_name, con, index=index)
-        columns = table_column_names(con=con, table_name=table_name)
-        insert_query = f"INSERT IGNORE INTO {table_name}({columns}) SELECT {columns} FROM `{temp_table}`"
-        con.execute(insert_query)
+        df.to_sql(temp_table, con, index=index)
+        columns = table_column_names(con=con, table_name=temp_table)
+        # insert or ignore data all data from temp table into the destination table
+        insert_query = f"INSERT OR IGNORE INTO {table_name} ({columns}) SELECT {columns} FROM `{temp_table}`"
+        cursor.execute(insert_query)
+
+        # drop temp table
+        drop_query = f"DROP TABLE IF EXISTS `{temp_table}`"
+        cursor.execute(drop_query)
+        con.commit()
+        con.close()
+        return None
     except Exception as e:
-        print(e)
-
-    # drop temp table
-    drop_query = f"DROP TABLE IF EXISTS `{temp_table}`"
-    con.execute(drop_query)
+        return f"error: {e}"
 
 
-def save_dataframe(df: pd.DataFrame, table_name: str):
+def save_dataframe(df: pd.DataFrame, table_name: str) -> str | None:
     """
     Save dataframe to the database.
     Index is saved if it has name. If it's None it will not be saved.
@@ -177,8 +185,11 @@ def save_dataframe(df: pd.DataFrame, table_name: str):
     else:
         save_index = True
 
-    insert_conflict_ignore(df=df, table_name=table_name, index=save_index)
+    result = insert_conflict_ignore(df=df, table_name=table_name, index=save_index)
+    return result
 
 
 if __name__ == "__main__":
     create_table()
+    df1, _ = pre_process(Path("연립다세대(매매)_실거래가_20240315235903.csv"))
+    save_dataframe(df1, table_name="section_one")

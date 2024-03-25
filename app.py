@@ -29,11 +29,21 @@ def do_crawl():
 
     if latest_file:
         df1, df = pre_process(Path(latest_file))
-        save_dataframe(df1, table_name="section_one")
-        save_dataframe(df, table_name="yangjae")
-        return f"success {latest_file.name}"
+
+        msg1 = save_dataframe(df1, table_name="section_one")
+        msg = save_dataframe(df, table_name="yangjae")
+
+        if msg1 and msg:
+            return f"df1: {msg1}, df: {msg}"
+        elif msg1:
+            return f"df1: {msg1}"
+        elif msg:
+            return f"df: {msg}"
+        else:
+            return "Success to crawl and save data!"
+
     else:
-        return "Nothing"
+        return "Failed to crawl data!"
 
 
 @app.route("/show")
