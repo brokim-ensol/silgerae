@@ -1,6 +1,9 @@
 # 베이스 이미지
 FROM silgerae
 
+# TZ=Asia/Seoul 설정
+ENV TZ=Asia/Seoul
+
 #작업 폴더 설정
 WORKDIR /opt/myproject
 
