@@ -2,6 +2,8 @@
 import sqlite3
 import pandas as pd
 from process import pre_process
+import random
+import string
 
 
 # 데이터베이스 생성
@@ -67,12 +69,12 @@ def insert_data(
     df.to_sql(table_name, con, if_exists="append", index=False)
 
 
-def read_data(conn: sqlite3.Connection = None, table_name: str = "section_one"):
-    if conn is None:
-        conn = sqlite3.connect("db/silgerae.db")
+def read_data(con: sqlite3.Connection = None, table_name: str = "section_one"):
+    if con is None:
+        con = sqlite3.connect("db/silgerae.db")
     df = pd.read_sql(
         sql=f"SELECT * FROM {table_name}",
-        con=conn,
+        con=con,
         dtype={
             "번지": "str",
             "본번": "str",
@@ -93,6 +95,89 @@ def read_data(conn: sqlite3.Connection = None, table_name: str = "section_one"):
     df["계약날짜"] = pd.to_datetime(df["계약날짜"], format="%Y-%m-%d")
     df["updated_at"] = pd.to_datetime(df["updated_at"], format="%Y-%m-%d %H:%M:%S")
     return df
+
+
+def table_column_names(
+    con: sqlite3.Connection = None, table_name: str = "section_one"
+) -> str:
+    """
+    Get column names from database table_name
+    Parameters
+    ----------
+    table_name : str
+        name of the table
+    Returns
+    -------
+    str
+        names of columns as a string so we can interpolate into the SQL queries
+    """
+
+    if con is None:
+        con = sqlite3.connect("db/silgerae.db")
+
+    cursor = con.cursor()
+
+    query = f"SELECT column_name FROM information_schema.columns WHERE table_name = '{table_name}'"
+    rows = cursor.execute(query)
+    dirty_names = [i[0] for i in rows]
+    clean_names = "`" + "`, `".join(map(str, dirty_names)) + "`"
+    return clean_names
+
+
+def insert_conflict_ignore(
+    df: pd.DataFrame,
+    con: sqlite3.Connection = None,
+    table_name: str = "section_one",
+    index: bool = False,
+):
+    """
+    Saves dataframe to the MySQL database with 'INSERT IGNORE' query.
+
+    First it uses pandas.to_sql to save to temporary table.
+    After that it uses SQL to transfer the data to destination table, matching the columns.
+    Destination table needs to exist already.
+    Final step is deleting the temporary table.
+    Parameters
+    ----------
+    df : pd.DataFrame
+        dataframe to save
+    table : str
+        destination table name
+    """
+    # generate random table name for concurrent writing
+    if con is None:
+        con = sqlite3.connect("db/silgerae.db")
+
+    temp_table = "".join(random.choice(string.ascii_letters) for i in range(10))
+    try:
+        df.to_sql(table_name, con, index=index)
+        columns = table_column_names(con=con, table_name=table_name)
+        insert_query = f"INSERT IGNORE INTO {table_name}({columns}) SELECT {columns} FROM `{temp_table}`"
+        con.execute(insert_query)
+    except Exception as e:
+        print(e)
+
+    # drop temp table
+    drop_query = f"DROP TABLE IF EXISTS `{temp_table}`"
+    con.execute(drop_query)
+
+
+def save_dataframe(df: pd.DataFrame, table_name: str):
+    """
+    Save dataframe to the database.
+    Index is saved if it has name. If it's None it will not be saved.
+    It implements INSERT IGNORE when inserting rows into the MySQL table.
+    Table needs to exist before.
+    Arguments:
+        df {pd.DataFrame} -- dataframe to save
+        table {str} -- name of the db table
+    """
+    if df.index.name is None:
+        save_index = False
+    else:
+        save_index = True
+
+    insert_conflict_ignore(df=df, table_name=table_name, index=save_index)
 
 
 if __name__ == "__main__":

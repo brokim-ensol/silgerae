@@ -4,7 +4,7 @@ import os
 from crawl import crawl
 from process import pre_process
 from pathlib import Path
-from db import insert_data, read_data, create_table
+from db import insert_data, read_data, create_table, save_dataframe
 import pandas as pd
 
 app = Flask(__name__)
@@ -29,8 +29,8 @@ def do_crawl():
 
     if latest_file:
         df1, df = pre_process(Path(latest_file))
-        insert_data(df1, table_name="section_one")
-        insert_data(df, table_name="yangjae")
+        save_dataframe(df1, table_name="section_one")
+        save_dataframe(df, table_name="yangjae")
         return f"success {latest_file.name}"
     else:
         return "Nothing"
