@@ -1,5 +1,5 @@
 # 베이스 이미지
-FROM silgerae
+FROM silgerae_base
 
 # TZ=Asia/Seoul 설정
 ENV TZ=Asia/Seoul
