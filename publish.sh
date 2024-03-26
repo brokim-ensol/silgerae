@@ -9,7 +9,7 @@ fi
 # check if the image exists
 if [ "$(docker images -q silgerae)" ]; then
     echo "=> Removing the image"
-    docker rmi silgerae2
+    docker rmi silgerae
 fi
 echo "=> Pulling the latest changes from the repository"
 git pull
