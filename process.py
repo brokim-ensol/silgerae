@@ -76,7 +76,7 @@ def pre_process(latest_file: Path = None):
     df1 = df[df["일구역"]]
 
     # %%
-    return df1.head(20), df.head(20)
+    return df1, df
 
 
 if __name__ == "__main__":

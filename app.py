@@ -60,6 +60,9 @@ def show():
     df1 = df1[df1["updated_at"] > pd.to_datetime("now") - pd.DateOffset(weeks=1)]
     df = df[df["updated_at"] > pd.to_datetime("now") - pd.DateOffset(weeks=1)]
 
+    df1 = df1.loc[:20, :]
+    df = df.loc[:20, :]
+
     return render_template(
         "show.html",
         tables=[
