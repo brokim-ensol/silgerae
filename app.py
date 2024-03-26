@@ -124,6 +124,7 @@ def gm(table_name="section_one"):
         hover_data=("거래금액"),
         range_y=(min_y, max_y),
         template="seaborn",
+        size="거래금액",
     )
     fig.add_hline(y=7230, line_width=2, line_dash="dash", line_color="blue")
 
