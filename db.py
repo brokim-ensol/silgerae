@@ -95,6 +95,7 @@ def read_data(con: sqlite3.Connection = None, table_name: str = "section_one"):
     )
     df["계약날짜"] = pd.to_datetime(df["계약날짜"], format="%Y-%m-%d")
     df["updated_at"] = pd.to_datetime(df["updated_at"], format="%Y-%m-%d %H:%M:%S")
+    df = df.sort_values(by="updated_at", ascending=False)
     return df
 
 

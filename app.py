@@ -30,6 +30,9 @@ def do_crawl():
     if latest_file:
         df1, df = pre_process(Path(latest_file))
 
+        # rm latest_file using pathlib
+        latest_file.unlink(missing_ok=True)
+
         msg1 = save_dataframe(df1, table_name="section_one")
         msg = save_dataframe(df, table_name="yangjae")
 
