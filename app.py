@@ -125,6 +125,7 @@ def gm(table_name="section_one"):
         range_y=(min_y, max_y),
         template="seaborn",
     )
+    fig.add_hline(y=7230, line_width=2, line_dash="dash", line_color="blue")
 
     # Create a JSON representation of the graph
     graphJSON = fig.to_json()  # json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
