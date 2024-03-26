@@ -1,3 +1,4 @@
+#!/bin/bash
 docker cp silgerae:/opt/myproject/db/silgerae.db /volume1/homes/brokim/silgerae/db
 docker rm -f silgerae
 docker rmi silgerae
