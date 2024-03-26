@@ -11,6 +11,7 @@ if [ "$(docker images -q silgerae)" ]; then
     echo "=> Removing the image"
     docker rmi silgerae2
 fi
+echo "=> Pulling the latest changes from the repository"
 git pull
 echo "=> Building the image"
 docker build -t silgerae --file Dockerfile_silgerae .
