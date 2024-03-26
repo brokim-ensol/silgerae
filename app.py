@@ -57,11 +57,14 @@ def show():
     df1 = read_data(table_name="section_one")
     df = read_data(table_name="yangjae")
     # df1의 updated_at 컬럼을 기준으로 최근 1주일 데이터만 가져온다.
-    df1 = df1[df1["updated_at"] > pd.to_datetime("now") - pd.DateOffset(weeks=1)]
-    df = df[df["updated_at"] > pd.to_datetime("now") - pd.DateOffset(weeks=1)]
+    df1.sort_values(by="계약날짜", ascending=False, inplace=True)
+    df.sort_values(by="계약날짜", ascending=False, inplace=True)
 
     df1 = df1.loc[:20, :]
     df = df.loc[:20, :]
+
+    df1 = df1[df1["updated_at"] > pd.to_datetime("now") - pd.DateOffset(weeks=1)]
+    df = df[df["updated_at"] > pd.to_datetime("now") - pd.DateOffset(weeks=1)]
 
     return render_template(
         "show.html",
