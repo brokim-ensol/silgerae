@@ -6,6 +6,9 @@ from process import pre_process
 from pathlib import Path
 from db import insert_data, read_data, create_table, save_dataframe
 import pandas as pd
+import json
+import plotly
+import plotly.express as px
 
 app = Flask(__name__)
 
@@ -75,6 +78,51 @@ def show():
         ],
         titles=["na", "1구역", "양재2동 전체"],
     )
+
+
+@app.route("/graph/<endpoint>")
+def graph(endpoint):
+    if endpoint == "section_one":
+        return gm("section_one")
+    elif endpoint == "yangjae":
+        return gm("yangjae")
+    else:
+        return "Invalid endpoint"
+
+
+@app.route("/graph")
+def index():
+
+    return render_template("graph.html")
+
+
+def gm(table_name="section_one"):
+    # st = yf.Ticker(stock)
+
+    # Create a line graph
+    # df = st.history(period=(period), interval=interval)
+    df = read_data(table_name=table_name)
+    df = df[["계약날짜", "대지면적평당가격", "거래금액"]]
+    # df=df.reset_index()
+    # df.columns = ['Date-Time']+list(df.columns[1:])
+    max_y = df["대지면적평당가격"].max()
+    min_y = df["대지면적평당가격"].min()
+    dev_y = max_y - min_y
+    margin = dev_y * 0.05
+    max_y = max_y + margin
+    min_y = min_y - margin
+    fig = px.area(
+        df,
+        x="계약날짜",
+        y="대지면적평당가격",
+        hover_data=("거래금액"),
+        range_y=(min_y, max_y),
+        template="seaborn",
+    )
+
+    # Create a JSON representation of the graph
+    graphJSON = fig.to_json()  # json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
 
 
 if __name__ == "__main__":
