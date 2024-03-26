@@ -16,7 +16,7 @@
             if (rsp_section_one.ok) {
                 let chartJson = await rsp_section_one.json();
                 if (rsp_section_one.ok) {
-                    Plotly.newPlot('chart', chartJson, {});
+                    Plotly.newPlot('chart_section_one', chartJson, {});
                 } else {
                     alert("HTTP-Error: " + rsp_section_one.status + "on getInfo");
                 }
@@ -27,7 +27,7 @@
             if (rsp_yangjae.ok) {
                 let chartJson = await rsp_yangjae.json();
                 if (rsp_yangjae.ok) {
-                    Plotly.newPlot('chart', chartJson, {});
+                    Plotly.newPlot('chart_yangjae', chartJson, {});
                 } else {
                     alert("HTTP-Error: " + rsp_yangjae.status + "on getInfo");
                 }
@@ -41,7 +41,8 @@
 <body>
     
     <button type="button" class="btn btn-primary" onclick="plot()">show graph</button>
-    <div id="chart" class="chart" style="height: 300px;border: 1px solid; box-shadow: 5px 5px 5px #888888;"></div>
+    <div id="chart_section_one" class="chart" style="height: 300px;border: 1px solid; box-shadow: 5px 5px 5px #888888;"></div>
+    <div id="chart_yangjae" class="chart" style="height: 300px;border: 1px solid; box-shadow: 5px 5px 5px #888888;"></div>
     <script>plot();</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
