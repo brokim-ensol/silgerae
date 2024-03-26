@@ -1,6 +1,6 @@
 #!/bin/bash
 # check if the container is running
-if [ "$(docker ps -q -f name=silgerae)" ]; then
+if [ "$(docker ps -a -f name=silgerae)" ]; then
     echo "=> Copying the database file to the host"
     docker cp silgerae:/opt/myproject/db/silgerae.db /volume1/homes/brokim/silgerae/db
     echo "=> Removing the container"
