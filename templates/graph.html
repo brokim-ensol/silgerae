@@ -16,7 +16,7 @@
             if (rsp_section_one.ok) {
                 let chartJson = await rsp_section_one.json();
                 if (rsp_section_one.ok) {
-                    Plotly.newPlot('graph', chartJson, {});
+                    Plotly.newPlot('chart', chartJson, {});
                 } else {
                     alert("HTTP-Error: " + rsp_section_one.status + "on getInfo");
                 }
