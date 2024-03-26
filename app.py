@@ -111,7 +111,7 @@ def gm(table_name="section_one"):
     margin = dev_y * 0.05
     max_y = max_y + margin
     min_y = min_y - margin
-    fig = px.area(
+    fig = px.scatter(
         df,
         x="계약날짜",
         y="대지면적평당가격",
