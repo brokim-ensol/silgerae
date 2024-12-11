@@ -13,7 +13,7 @@ RUN apt install -y libglib2.0-0 libnss3 libx11-xcb1 libxcb1 libnspr4 libnss3
 
 #chrome 설치
 RUN apt install -y wget
-RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_131.0.6778.108-1_amd64.deb
+RUN wget -q https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_131.0.6778.108-1_amd64.deb
 RUN apt install -y ./google-chrome-stable_131.0.6778.108-1_amd64.deb
 
 # ./google-chrome-stable_131.0.6778.108-1_amd64.deb 삭제
