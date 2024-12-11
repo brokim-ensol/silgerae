@@ -29,7 +29,7 @@ def create_table():
             양재2동 integer,
             일구역 integer,
             updated_at text,
-            PRIMARY KEY (번지, 층, 전용면적, 대지면적)
+            PRIMARY KEY (번지, 층, 전용면적, 대지면적, 계약날짜, 거래금액)
         )
     """
     )

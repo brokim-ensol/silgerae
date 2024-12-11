@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, session, render_template
+from flask import Flask, session, render_template, redirect, url_for
 import os
 from crawl import crawl
 from process import pre_process
@@ -46,7 +46,7 @@ def do_crawl():
         elif msg:
             return f"df: {msg}"
         else:
-            return "Success to crawl and save data!"
+            return redirect(url_for("show"))
 
     else:
         return "Failed to crawl data!"

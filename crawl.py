@@ -41,8 +41,11 @@ def crawl():
     search_from_date = wait.until(EC.presence_of_element_located((By.ID, "srhFromDt")))
 
     # input the value of the input id srhFromDt rather than send keys
+    # chrome.execute_script(
+    #     f'arguments[0].value = "{oneYearBeforeDate}"', search_from_date
+    # )
     chrome.execute_script(
-        f'arguments[0].value = "{oneYearBeforeDate}"', search_from_date
+        f'arguments[0].value = "{"2023-01-01"}"', search_from_date
     )
 
     # print the input id srhFromDt
@@ -52,7 +55,8 @@ def crawl():
     search_to_date = wait.until(EC.presence_of_element_located((By.ID, "srhToDt")))
 
     # input the value of the input id srhToDt rather than send keys
-    chrome.execute_script(f'arguments[0].value = "{nowDate}"', search_to_date)
+    # chrome.execute_script(f'arguments[0].value = "{nowDate}"', search_to_date)
+    chrome.execute_script(f'arguments[0].value = "{"2023-12-31"}"', search_to_date)
 
     # find the input id srhSidoCd
     search_sido_cd = wait.until(EC.presence_of_element_located((By.ID, "srhSidoCd")))
