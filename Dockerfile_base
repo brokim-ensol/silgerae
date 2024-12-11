@@ -4,9 +4,9 @@ FROM python:3.10-slim
 #작업 폴더 설정
 WORKDIR /opt/myproject
 
-RUN apt update
+RUN apt update -y
 
-RUN apt upgrade
+RUN apt upgrade -y
 
 #chrome driver에 필요한 라이브러리 설치
 RUN apt install -y libglib2.0-0 libnss3 libx11-xcb1 libxcb1 libnspr4 libnss3
