@@ -84,6 +84,30 @@ def show():
         ],
         titles=["na", "1구역", "양재2동 전체"],
     )
+    
+@app.route("/show/all")
+def show_all():
+    df1 = read_data(table_name="section_one")
+    df = read_data(table_name="yangjae")
+
+    return render_template(
+        "show.html",
+        tables=[
+            df1.to_html(
+                classes="table table-bordered table-intel",
+                table_id="table1",
+                border=0,
+                index=False,
+            ),
+            df.to_html(
+                classes="table table-bordered table-intel",
+                table_id="table2",
+                border=0,
+                index=False,
+            ),
+        ],
+        titles=["na", "1구역", "양재2동 전체"],
+    )
 
 
 @app.route("/graph/<endpoint>")
