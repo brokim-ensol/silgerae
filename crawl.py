@@ -10,17 +10,15 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from chromedriver import generate_chrome
 
+now = datetime.now()
+nowDate = now.strftime("%Y-%m-%d")
+# get one year before from now
+oneYearBefore = now - timedelta(days=365)
+oneYearBeforeDate = oneYearBefore.strftime("%Y-%m-%d")
 
-def crawl():
+def crawl(from_when:str=oneYearBeforeDate, to_when:str=nowDate):
     # this file location
     fileLocation = Path(__file__).resolve().parent
-
-    now = datetime.now()
-    nowDate = now.strftime("%Y-%m-%d")
-
-    # get one year before from now
-    oneYearBefore = now - timedelta(days=365)
-    oneYearBeforeDate = oneYearBefore.strftime("%Y-%m-%d")
 
     chrome = generate_chrome(headless=True, download_path=str(fileLocation))
 
@@ -42,7 +40,7 @@ def crawl():
 
     # input the value of the input id srhFromDt rather than send keys
     chrome.execute_script(
-        f'arguments[0].value = "{oneYearBeforeDate}"', search_from_date
+        f'arguments[0].value = "{from_when}"', search_from_date
     )
 
     # print the input id srhFromDt
@@ -52,7 +50,7 @@ def crawl():
     search_to_date = wait.until(EC.presence_of_element_located((By.ID, "srhToDt")))
 
     # input the value of the input id srhToDt rather than send keys
-    chrome.execute_script(f'arguments[0].value = "{nowDate}"', search_to_date)
+    chrome.execute_script(f'arguments[0].value = "{to_when}"', search_to_date)
 
     # find the input id srhSidoCd
     search_sido_cd = wait.until(EC.presence_of_element_located((By.ID, "srhSidoCd")))

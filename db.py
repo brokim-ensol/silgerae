@@ -51,7 +51,7 @@ def create_table():
             양재2동 integer,
             일구역 integer,
             updated_at text,
-            PRIMARY KEY (번지, 층, 전용면적, 대지면적)
+            PRIMARY KEY (번지, 층, 전용면적, 대지면적, 계약날짜, 거래금액)
         )
     """
     )
@@ -113,6 +113,9 @@ def table_column_names(
     str
         names of columns as a string so we can interpolate into the SQL queries
     """
+    #if 'db/silgerae.db' not exists then create_table
+    if not Path("db/silgerae.db").exists():
+        create_table()
 
     if con is None:
         con = sqlite3.connect("db/silgerae.db")

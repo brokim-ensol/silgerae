@@ -50,6 +50,32 @@ def do_crawl():
 
     else:
         return "Failed to crawl data!"
+    
+@app.route("/crawl/all")
+def do_crawl_all():
+    latest_file = crawl(from_when="2023-01-01", to_when="2023-12-31")
+    session["latest_file"] = str(latest_file)
+
+    if latest_file:
+        df1, df = pre_process(Path(latest_file))
+
+        # rm latest_file using pathlib
+        latest_file.unlink(missing_ok=True)
+
+        msg1 = save_dataframe(df1, table_name="section_one")
+        msg = save_dataframe(df, table_name="yangjae")
+
+        if msg1 and msg:
+            return f"df1: {msg1}, df: {msg}"
+        elif msg1:
+            return f"df1: {msg1}"
+        elif msg:
+            return f"df: {msg}"
+        else:
+            return redirect(url_for("show"))
+
+    else:
+        return "Failed to crawl data!"
 
 
 @app.route("/show")
