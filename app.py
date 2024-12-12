@@ -74,7 +74,7 @@ def do_crawl_by_year(endpoint):
         elif msg:
             return f"df: {msg}"
         else:
-            return redirect(url_for("show"))
+            return redirect(url_for("show/all"))
 
     else:
         return "Failed to crawl data!"
