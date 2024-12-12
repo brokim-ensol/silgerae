@@ -1,4 +1,4 @@
 flask
-selenium==4.10.0
+selenium
 pandas
 plotly
