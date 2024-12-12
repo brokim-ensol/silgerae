@@ -16,7 +16,7 @@ nowDate = now.strftime("%Y-%m-%d")
 oneYearBefore = now - timedelta(days=365)
 oneYearBeforeDate = oneYearBefore.strftime("%Y-%m-%d")
 
-def crawl(from_when:str=oneYearBeforeDate, to_when:str=nowDate):
+def crawl(from_when:str=oneYearBeforeDate, to_when:str=nowDate) -> Path: 
     # this file location
     fileLocation = Path(__file__).resolve().parent
 

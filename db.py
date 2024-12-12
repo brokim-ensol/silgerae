@@ -113,9 +113,6 @@ def table_column_names(
     str
         names of columns as a string so we can interpolate into the SQL queries
     """
-    #if 'db/silgerae.db' not exists then create_table
-    if not Path("db/silgerae.db").exists():
-        create_table()
 
     if con is None:
         con = sqlite3.connect("db/silgerae.db")
@@ -150,6 +147,10 @@ def insert_conflict_ignore(
     table : str
         destination table name
     """
+    #if 'db/silgerae.db' not exists then create_table
+    if not Path("db/silgerae.db").exists():
+        create_table()
+        
     # generate random table name for concurrent writing
     if con is None:
         con = sqlite3.connect("db/silgerae.db")

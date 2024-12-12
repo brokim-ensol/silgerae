@@ -51,9 +51,11 @@ def do_crawl():
     else:
         return "Failed to crawl data!"
     
-@app.route("/crawl/all")
-def do_crawl_all():
-    latest_file = crawl(from_when="2023-01-01", to_when="2023-12-31")
+@app.route("/crawl/<endpoint>")
+def do_crawl_by_year(endpoint):
+    from_when = f"{endpoint}-01-01"
+    to_when = f"{endpoint}-12-31"
+    latest_file = crawl(from_when=from_when, to_when=to_when)
     session["latest_file"] = str(latest_file)
 
     if latest_file:
